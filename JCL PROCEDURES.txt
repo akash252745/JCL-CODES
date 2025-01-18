@@ -1,0 +1,40 @@
+INSTREAM PROCEDURE:
+This is a type of procedure that is defined within the same JCL where it calls.
+The Instream procedure don't validate syntax errors until an EXEC statement calls it.
+A maximum of 15 Instream procedure can be coded in any job.
+
+Code Description : JCL code for Instream Procedure.
+
+//INSTR     PROC
+//STEP01    EXEC PGM=IEFBR14
+//PSFILE    DD DSN=DCIAKK2.AKASH.&MEM,
+//          DISP=(NEW,CATLG,DELETE),UNIT=SYSDA,
+//          SPACE=(TRK,(1,1),RLSE),
+//          DCB=(DSORG=PS,RECFM=FB,LRECL=80,BLKSIZE=800)
+//          PEND
+//STEP02    EXEC INSTR,MEM=MEMBER1
+
+
+
+
+
+CATALOGUED PROCEDURE:
+The procedure defined outside of the JCL is Catalogued procedure.
+The library should be coded in JCL with JCLLIB(user defined) or PROCLIB(system defined) statement to include the procedure.
+A maximum of 255 Catalogued procedure can be coded in a single JCL. 
+
+
+Code Description: JCL code to create Catalogued procedure and then calling it in main JCL.
+
+//CATPROC    PROC
+//STEPA      EXEC PGM=IEFBR14
+//PSFILE     DD DSN=&PSNAME,
+//           DISP=(NEW,CATLG,DELETE),UNIT=SYSDA,
+//           SPACE=(TRK,(1,1),RLSE),
+//           DCB=(DSORG=PS,RECFM=FB,LRECL=80,BLKSIZE=800)
+
+
+
+//PLIB     JCLLIB ORDER(catalogued procedure library name)
+//STEP1    EXEC CATPROC,PSNAME=DCIAKK2.AKASH.PSFILE1
+//STEP2    EXEC CATPROC,PSNAME=DCIAKK2.AKASH.PSFILE2
