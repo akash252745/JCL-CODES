@@ -1,0 +1,10 @@
+JCL code to replace one or more character with other characters
+//STEP01     EXEC PGM=SORT
+//SYSOUT     DD SYSOUT=*
+//SORTIN     DD DSN=DCIAKK2.AKASH.FILE,DISP=SHR
+//SORTOUT    DD DSN=DCIAKK2.AKASH.REPLACE.FILE,DISP=SHR
+//SYSIN      DD *
+  SORT FIELDS=COPY
+  INREC IFTHEN=(WHEN=(50,5,CH,EQ,C'     ')
+  OVERLAY=(50:'AKASH'))
+/*
