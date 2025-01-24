@@ -9,6 +9,8 @@ Method 1:
   PRINT INFILE(FILE1) CHARACTER COUNT(1)
 /*
 
+**If file is empty then we get RC=04 and if not empty then RC=0 
+
 Method 2:
 //STEP01    EXEC PGM=FILEAID
 //INFILE    DD DSN=DCIAKK2.AKASH.PSFILE,DISP=SHR
