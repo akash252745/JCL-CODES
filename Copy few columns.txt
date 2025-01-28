@@ -1,0 +1,9 @@
+JCL code to copy records from PS to VSAM and copy only few columns only
+//STEP01     EXEC PGM=SORT
+//SYSOUT     DD SYSOUT=*
+//SORTIN     DD DSN=DCIAKK2.AKASH.PSFILE,DISP=SHR
+//SORTOUT    DD DSN=DCIAKK2.AKASH.VSAM,DISP=SHR
+//SYSIN      DD *
+  SORT FIELDS=COPY
+  INREC FIELDS=(1,10,25,10,40,20)
+/*
