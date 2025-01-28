@@ -9,3 +9,24 @@ JCL code to split the records of one file to many files
   SORT FIELDS=(1,6,CH,A)
   OUTFIL FNAMES(FILE1,FILE2,FILE3),SPLIT
 /*
+
+
+JCL code to split the records of one file to many files based on some criteria
+//STEP1     EXEC PGM=SORT
+//SORTIN    DD  DSN=INPUT.FILE,DISP=SHR
+//SORTOUT1  DD  DSN=OUTPUT.FILE1,DISP=SHR
+//SORTOUT2  DD  DSN=OUTPUT.FILE2,DISPSHR
+//SORTOUT3  DD  DSN=OUTPUT.FILE3,DISP=SHR
+//SYSOUT    DD  SYSOUT=*
+//SYSIN     DD  *
+  SORT FIELDS=COPY
+  INREC IFTHEN=(WHEN=(1,5,CH,EQ,C'001'),
+                THEN=(OUTREC=(1,80))),
+         IFTHEN=(WHEN=(1,5,CH,EQ,C'002'),
+                THEN=(OUTREC=(1,80))),
+         IFTHEN=(WHEN=(1,5,CH,NE,C'001'),
+                THEN=(OUTREC=(1,80))),
+  OUTFIL FNAMES=SORTOUT1,INCLUDE=(1,5,CH,EQ,C'001')
+  OUTFIL FNAMES=SORTOUT2,INCLUDE=(1,5,CH,EQ,C'002')
+  OUTFIL FNAMES=SORTOUT3,INCLUDE=(1,5,CH,NE,C'001')
+/*
