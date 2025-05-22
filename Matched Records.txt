@@ -6,7 +6,25 @@ JCL code to extract matched records from two file
 //SORTOUT    DD DSN=DCIAKK2.MATCHED.RECORDS,DISP=SHR
 //SYSIN      DD *
   SORT FIELDS=COPY
-  JOINKEYS FILES=F1,FIELDS=(1,6,CH,A)
+  JOINKEYS FILES=F1,FIELDS=(1,6,CH,A)             It will copy the matched records from the both file
   JOINKEYS FILES=F2,FIELDS=(1,6,CH,A)
+  REFORMAT FIELDS=(F1:1,50,F2:55,10)
+/*
+
+//SYSIN      DD *
+  SORT FIELDS=COPY
+  JOINKEYS FILES=F1,FIELDS=(1,6,CH,A)        *Join unpaired we have to use once either F1 / F2. Both are not coded together    
+  JOINKEYS FILES=F2,FIELDS=(1,6,CH,A)             
+  JOIN UNPAIRED,F1                           It will copy the matched records from the both file and also unmatched records from the F1 file       
+  JOIN UNPAIRED,F2                           It will copy the matched records from the both file and also unmatched records from the F2 file
+  REFORMAT FIELDS=(F1:1,50,F2:55,10)
+/*
+
+//SYSIN      DD *
+  SORT FIELDS=COPY
+  JOINKEYS FILES=F1,FIELDS=(1,6,CH,A)             *Join unpaired we have to use once either F1 / F2. Both are not coded together
+  JOINKEYS FILES=F2,FIELDS=(1,6,CH,A)
+  JOIN UNPAIRED,F1,ONLY                           It will copy only the unmatched records from the F1 file       
+  JOIN UNPAIRED,F2,ONLY                           It will copy only the unmatched records from the F2 file
   REFORMAT FIELDS=(F1:1,50,F2:55,10)
 /*
