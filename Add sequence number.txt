@@ -6,5 +6,29 @@ JCL code to add sequence number in a file
 //SORTOUT    DD DSN=DCIAKK2.AKASH.ADD.SEQ,DISP=SHR
 //SYSIN      DD *
   OPTION COPY
-  OUTREC BUILD=(1:1,70,75:SEQNUM,3,ZD,START=100,INCR=1)
+  OUTREC BUILD=(1:1,70,75:SEQNUM,3,ZD,START=100,INCR=1)    -------for explanation see from line 12
 /*
+********************************************************************************************************
+Copy 70 bytes starting from position 1 into position 1.
+At position 75, insert a 3-digit sequence number
+Format: ZD (zoned decimal)
+Starting at 100
+Incrementing by 1 for each record
+*********************************************************************************************************
+If You Want Sequence Number at the Last :
+*********************************************************************************************************
+//SEQNUM   JOB (ACCT),'ADD SEQNUM',CLASS=A,MSGCLASS=A
+//STEP01   EXEC PGM=SORT
+//SYSOUT   DD SYSOUT=*
+//SORTIN   DD DSN=INPUT.FILE,DISP=SHR
+//SORTOUT  DD DSN=OUTPUT.FILE,DISP=(NEW,CATLG,DELETE),
+//            SPACE=(TRK,(1,1)),UNIT=SYSDA,
+//            DCB=(RECFM=FB,LRECL=84)
+//SYSIN    DD *
+  SORT FIELDS=COPY
+  INREC OVERLAY=(81:SEQNUM,4,ZD)
+/*
+***********************************************************************************************************
+If You Want Sequence Number at the Beginning:
+**********************************************************************************************************
+  INREC BUILD=(SEQNUM,4,ZD,1:1,80)
