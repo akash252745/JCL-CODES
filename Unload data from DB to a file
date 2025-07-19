@@ -1,0 +1,17 @@
+//UNLOAD        EXEC PGM=IKJEFT01
+//SYSTSPRT      DD SYSOUT=*                              /* Prints messages/output from TSO commands. */
+//SYSTSIN       DD * 
+  DSN SYSTEM(DB2X) RETRY(120)                           /* Connects to DB2 subsystem named DB2X......Retry interval if DB2 isn't available. */
+  RUN PROGRAM(DSNTIAUL)                                 /* Executes DSNTIAUL, IBM's sample unload utility. */
+  PLAN(DSNTIAUL)                                        /* Uses the DB2 plan bound to DSNTIAUL. */
+  PARM('SQL')                                           /* Tells DSNTIAUL it's an SQL statement. */
+  END                                                   /* Marks the end of the command set. */
+/*
+//SYSPRINT     DD SYSOUT=*                              /* Where DSNTIAUL writes its report/logs. */
+//SYSUDUMP     DD SYSOUT=*                              /* System dump if the program abends (for debugging). */
+//SYSREC00     DD DSN=AKASH.UNLOAD.DB2.FILE,
+//             DISP=(NEW,CATLG,DELETE)
+//SYSPUNCH     DD SYSOUT=*                              /* Typically used for DDL or LOAD utility cards. Will remain empty unless DSNTIAUL generates output for it. */
+//SYSIN        DD *
+  SELECT ROW1,ROW2 FROM DATABASE1.TABLE1 WHERE ROW3=0 WITH UR;
+/*
