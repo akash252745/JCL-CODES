@@ -9,7 +9,21 @@ JCL code to split the records of one file to many files
   SORT FIELDS=(1,6,CH,A)
   OUTFIL FNAMES(FILE1,FILE2,FILE3),SPLIT
 /*
-
+*********************           OR             ******************************************************************
+JCL code to split the records of one file to many files using INCLUDE & OMIT CONDITION.
+//STEP01     EXEC PGM=SORT
+//SYSOUT     DD SYSOUT=*
+//SORTIN     DD DSN=DCIAKK2.AKASH.FILE,DISP=SHR
+//FILE1      DD DSN=DCIAKK2.AKASH.FILE.SPLIT1,DISP=SHR
+//FILE2      DD DSN=DCIAKK2.AKASH.FILE.SPLIT2,DISP=SHR
+//FILE3      DD DSN=DCIAKK2.AKASH.FILE.SPLIT3,DISP=SHR
+//SYSIN      DD *
+  SORT FIELDS=(1,6,CH,A)
+  OUTFILE FNAMES=FILE1,INCLUDE=(1,5,CH,EQ,C'001')
+  OUTFILE FNAMES=FILE2,OMIT=(1,5,CH,EQ,C'001')
+  OUTFILE FNAMES=FILE3,INCLUDE=(10,5,CH,EQ,C'AKASH')
+/*
+**********************************************************************************************************************
 
 JCL code to split the records of one file to many files based on some criteria
 //STEP1     EXEC PGM=SORT
