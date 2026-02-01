@@ -1,0 +1,16 @@
+SIGNON
+SUBMIT PROC=COPY#ACK,HOLD=NO,CASE=YES                              -
+    NEWNAME=MSGS#BEF                                               -
+    SNODE=cdbdgcgaeuat,                                            -
+    &IDSN01=RMSG.BSB.DNLOAD.DWCUS.CNTRL,                           -
+    &ODSN01=\'/data/2/gcgsga/download/daily/current/wlt/\||        -
+        \RMSG.BSB.DNLOAD.DWCUS.cntrl',\                            -
+    &OSYSO01=SYSOPTS=\":datatype=text:strip.blanks=no:\||          -
+        \permiss=755:"\                                            -
+    &CMD=\"touch /data/2/gcgsga/download/daily/current/wlt/\||     -
+        \RMSG.BSB.DNLOAD.DWCUS.cntrl.ack"\                         -
+    &SET01=SETA                                                    -
+    &MEM01=MSGS#BEF                                                -
+    &TPGMP=CSYUEV2                                                 -
+    &TPGMS=UNIX
+SIGNOFF
