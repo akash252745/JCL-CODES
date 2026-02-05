@@ -1,5 +1,6 @@
 JCL code to check file is empty or not by two methods
-
+IN METHOD 1, IF IFLE IS EMPTY THEN RC=04 AND IF FILE IS NOT EMPTY RC=00 YOU WILL GET
+IN METHOD 2,TESTING PENDING
 Method 1:
 //STEP01    EXEC PGM=IDCAMS
 //FILE1     DD DSN=DCIAKK2.AKASH.PSFILE,DISP=SHR
@@ -9,8 +10,6 @@ Method 1:
   PRINT INFILE(FILE1) CHARACTER COUNT(1)
 /*
 
-**If file is empty then we get RC=04 and if not empty then RC=0 
-
 Method 2:
 //STEP01    EXEC PGM=FILEAID
 //INFILE    DD DSN=DCIAKK2.AKASH.PSFILE,DISP=SHR
@@ -19,3 +18,4 @@ Method 2:
 //SYSPRINT  DD SYSOUT=*
 //SYSIN     DD DUMMY
 /*
+
